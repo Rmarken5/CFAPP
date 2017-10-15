@@ -10,6 +10,8 @@ public class Game {
 	private Opponent loser;
 	private String notes;
 	private String broadcaster;
+	private Opponent homeTeam;
+	private Opponent awayTeam;
 	
 	
 	public Long getId() {
@@ -54,12 +56,20 @@ public class Game {
 	public void setBroadcaster(String broadcaster) {
 		this.broadcaster = broadcaster;
 	}
+	public Opponent getHomeTeam() {
+		return homeTeam;
+	}
+	public void setHomeTeam(Opponent homeTeam) {
+		this.homeTeam = homeTeam;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((awayTeam == null) ? 0 : awayTeam.hashCode());
+		result = prime * result + ((broadcaster == null) ? 0 : broadcaster.hashCode());
 		result = prime * result + ((dateGame == null) ? 0 : dateGame.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((homeTeam == null) ? 0 : homeTeam.hashCode());
 		result = prime * result + ((loser == null) ? 0 : loser.hashCode());
 		result = prime * result + ((notes == null) ? 0 : notes.hashCode());
 		result = prime * result + weekNumber;
@@ -75,15 +85,25 @@ public class Game {
 		if (getClass() != obj.getClass())
 			return false;
 		Game other = (Game) obj;
+		if (awayTeam == null) {
+			if (other.awayTeam != null)
+				return false;
+		} else if (!awayTeam.equals(other.awayTeam))
+			return false;
+		if (broadcaster == null) {
+			if (other.broadcaster != null)
+				return false;
+		} else if (!broadcaster.equals(other.broadcaster))
+			return false;
 		if (dateGame == null) {
 			if (other.dateGame != null)
 				return false;
 		} else if (!dateGame.equals(other.dateGame))
 			return false;
-		if (id == null) {
-			if (other.id != null)
+		if (homeTeam == null) {
+			if (other.homeTeam != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!homeTeam.equals(other.homeTeam))
 			return false;
 		if (loser == null) {
 			if (other.loser != null)
@@ -107,7 +127,14 @@ public class Game {
 	@Override
 	public String toString() {
 		return "Game [id=" + id + ", weekNumber=" + weekNumber + ", dateGame=" + dateGame + ", winner=" + winner
-				+ ", loser=" + loser + ", notes=" + notes + ", broadcaster=" + broadcaster + "]";
+				+ ", loser=" + loser + ", notes=" + notes + ", broadcaster=" + broadcaster + ", homeTeam=" + homeTeam
+				+ ", awayTeam=" + awayTeam + "]";
+	}
+	public Opponent getAwayTeam() {
+		return awayTeam;
+	}
+	public void setAwayTeam(Opponent awayTeam) {
+		this.awayTeam = awayTeam;
 	}
 	
 	

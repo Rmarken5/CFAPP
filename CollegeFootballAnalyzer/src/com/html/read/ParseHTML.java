@@ -155,8 +155,16 @@ public class ParseHTML {
 						    currentGame.setDateGame(ts);
 						    currentGame.setLoser(loser);
 						    currentGame.setWinner(winner);
+						    if(row.contains("@")){
+								currentGame.setHomeTeam(currentGame.getLoser());
+								currentGame.setAwayTeam(currentGame.getWinner());
+							}else{
+								currentGame.setHomeTeam(currentGame.getWinner());
+								currentGame.setAwayTeam(currentGame.getLoser());
+							}
 						    results.add(currentGame);
 					    }
+						
 					}
 					}
 				}
