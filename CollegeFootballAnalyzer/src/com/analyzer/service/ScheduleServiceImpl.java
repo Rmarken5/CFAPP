@@ -14,5 +14,12 @@ public class ScheduleServiceImpl implements ScheduleService {
 		scheduleDAO.insertIntoSchedule(schedule);
 	}
 
+	@Override
+	public Long getLatestWeekNum() throws Exception {
+
+		return scheduleDAO.getLatestWeekNum();
+	
+	}
+
 
 }

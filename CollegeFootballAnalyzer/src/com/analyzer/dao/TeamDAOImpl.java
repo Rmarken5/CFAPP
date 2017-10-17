@@ -32,11 +32,9 @@ public class TeamDAOImpl implements TeamDAO {
 		Team team = null;
 		try {
 
-			session.beginTransaction();
 			if (lineName != null) {
-				team = (Team) session.createQuery(queryString).setParameter("lineName", lineName);
+				team = (Team) session.createQuery(queryString).setParameter("lineName", lineName).uniqueResult();
 			}
-			session.getTransaction().commit();
 		} catch (Exception e) {
 			throw e;
 		}

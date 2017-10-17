@@ -27,5 +27,18 @@ public class ScheduleDAOImpl implements ScheduleDAO {
 		}
 	}
 
+	@Override
+	public Long getLatestWeekNum() throws Exception {
+		Long weekNumber = null;
+		Session session = SessionServiceImpl.getSession();
+		String query = "SELECT MAX(s.weekNumber) FROM SeasonSchedule s";
+		
+		session.getTransaction().begin();
+		weekNumber = session.createQuery(query, Long.class).getSingleResult();
+		session.getTransaction().commit();
+		return weekNumber;
+		
+	}
+
 	
 }

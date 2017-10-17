@@ -4,6 +4,8 @@ import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Date {
 
@@ -11,9 +13,14 @@ public class Date {
 	private java.util.Date dateObject;
 	private Long timeMilliseconds;
 	private Timestamp msAsTimestamp;
-	private Event event;
+	private List<Event> events;
 	
-	
+	public void addEvent(Event event){
+		if(this.events == null ){
+			events = new ArrayList<Event>();
+		}
+		events.add(event);
+	}
 	public String getDateText() {
 		return dateText;
 	}
@@ -46,16 +53,17 @@ public class Date {
 	public void setMsAsTimestamp(Timestamp msAsTimestamp) {
 		this.msAsTimestamp = msAsTimestamp;
 	}
-	public Event getEvent() {
-		return event;
+
+	public List<Event> getEvents() {
+		return events;
 	}
-	public void setEvent(Event event) {
-		this.event = event;
+	public void setEvents(List<Event> events) {
+		this.events = events;
 	}
 	@Override
 	public String toString() {
 		return "Date [dateText=" + dateText + ", dateObject=" + dateObject + ", timeMilliseconds=" + timeMilliseconds
-				+ ", msAsTimestamp=" + msAsTimestamp + ", event=" + event + "]";
+				+ ", msAsTimestamp=" + msAsTimestamp + ", events=" + events + "]";
 	}
 	
 	

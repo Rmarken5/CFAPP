@@ -154,8 +154,12 @@ public class ParseLines {
 				}
 			}
 			if(element.content() != null && element.content().size() > 0 ){
-				eventElement = (Element) element.content().get(0);
-				result.setEvent(parseElementToEvent(eventElement));
+				for(Iterator<Element> elmIter = (Iterator<Element>)element.content().iterator(); elmIter.hasNext();){
+				    Element elm = elmIter.next();
+				    if(elm.getName().equalsIgnoreCase("EVENT")){
+					    result.addEvent(parseElementToEvent(elm));
+				    }
+				}
 			}
 		}
 		return result;

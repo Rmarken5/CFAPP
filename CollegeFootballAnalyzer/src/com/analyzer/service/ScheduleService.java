@@ -9,4 +9,5 @@ import com.entities.SeasonSchedule;
 public interface ScheduleService {
 
 	public void insertIntoSchedule(SeasonSchedule schedule) throws Exception; 
+	public Long getLatestWeekNum() throws Exception;
 }

@@ -1,0 +1,25 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.entities.GameLine" table="GAME_LINE">
+
+		<meta attribute="class-description">
+			This class contains the GameLine detail.
+		</meta>
+
+		<id name="id" type="long" column="GAME_LINE_ID">
+			<generator class="increment" />
+		</id>
+
+		<property name="weekNumber" column="WEEK_NUMBER" type="long" />
+		<many-to-one name="homeTeam" column="HOME_TEAM_ID" class="com.entities.Team"
+			not-null="true" />
+		<many-to-one name="awayTeam" column="AWAY_TEAM_ID" class="com.entities.Team"
+			not-null="true" />
+		<property name="spread" column="SPREAD" type="double" />
+
+	</class>
+</hibernate-mapping>
