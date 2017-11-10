@@ -8,17 +8,21 @@ import com.analyzer.service.ScheduleServiceImpl;
 import com.analyzer.service.TeamService;
 import com.analyzer.service.TeamServiceImpl;
 import com.entities.Game;
+import com.entities.GameLine;
 import com.entities.SeasonSchedule;
 import com.entities.Team;
 
 public class ScheduleBO {
-	
+
 	public void loadGamesIntoSchedule(List<Game> games) throws Exception {
-		Team team = null;
+		Team homeTeam = null;
+		Team awayTeam = null;
+		Team winningTeam = null;
 		Iterator<Game> gameIter = null;
 		SeasonSchedule schedule = null;
 		TeamService ts = new TeamServiceImpl();
 		ScheduleService scheduleService = new ScheduleServiceImpl();
+		GameLine gameLine = null;
 		try {
 			if (games != null && games.size() > 0) {
 
@@ -32,17 +36,28 @@ public class ScheduleBO {
 					schedule.setGameTimestamp(game.getDateGame());
 					schedule.setWeekNumber((long) game.getWeekNumber());
 
-					team = ts.findByScheduleName(game.getHomeTeam().getSchoolName().trim());
-					if (team != null) {
-						schedule.setHomeTeam(team);
-						team = ts.findByScheduleName(game.getAwayTeam().getSchoolName().trim());
-						schedule.setAwayTeam(team);
-						if (team != null) {
-							team = ts.findByScheduleName(game.getWinner().getSchoolName().trim());
-							if (team != null) {
-								schedule.setWinningTeam(team);
+					homeTeam = ts.findByScheduleName(game.getHomeTeam().getSchoolName().trim());
+					if (homeTeam != null) {
+						schedule.setHomeTeam(homeTeam);
+						awayTeam = ts.findByScheduleName(game.getAwayTeam().getSchoolName().trim());
+						schedule.setAwayTeam(awayTeam);
+						if (awayTeam != null) {
+							winningTeam = ts.findByScheduleName(game.getWinner().getSchoolName().trim());
+							if (winningTeam != null) {
+								
+								schedule.setWinningTeam(winningTeam);
+								
 								scheduleService.insertIntoSchedule(schedule);
-							}else{
+								
+								calculateWinsLoss(homeTeam, awayTeam, winningTeam);
+								
+								gameLine = getGameLineByHomeTeam(homeTeam);
+								
+								calculateAgainstTheSpread(homeTeam, awayTeam, gameLine, game);
+								
+								updateTeam(homeTeam);
+								updateTeam(awayTeam);
+							} else {
 								System.out.println("Missing Team: " + game.getWinner().getSchoolName());
 							}
 						} else {
@@ -52,12 +67,62 @@ public class ScheduleBO {
 						System.out.println("Missing Team: " + game.getHomeTeam().getSchoolName());
 					}
 				}
-				
+
 			}
 		} catch (Exception e) {
 			throw e;
 		}
-
 	}
 
+	private void calculateWinsLoss(Team homeTeam, Team awayTeam, Team winningTeam) {
+		if (winningTeam.getId() == homeTeam.getId()) {
+			homeTeam.setWins(homeTeam.getWins() + 1);
+			awayTeam.setLosses(awayTeam.getLosses() + 1);
+		} else {
+			homeTeam.setWins(homeTeam.getWins() + 1);
+			awayTeam.setLosses(awayTeam.getLosses() + 1);
+		}
+	}
+
+	private void calculateAgainstTheSpread(Team homeTeam, Team awayTeam, GameLine gameLine, Game game) {
+		double difference;
+		difference = game.getHomeTeam().getPoints() - game.getAwayTeam().getPoints();
+		if (gameLine.getSpread() < 0) {
+
+			if (difference > Math.abs(gameLine.getSpread())) {
+				homeTeam.setAtsWins(homeTeam.getAtsWins() + 1);
+				awayTeam.setAtsLosses(awayTeam.getAtsLosses() + 1);
+			} else if (difference < Math.abs(gameLine.getSpread())) {
+				awayTeam.setAtsWins(awayTeam.getAtsWins() + 1);
+				homeTeam.setAtsLosses(homeTeam.getAtsLosses() + 1);
+			}
+		} else if (gameLine.getSpread() > 0) {
+			
+			if (difference > 0 || Math.abs(difference) < gameLine.getSpread()) {
+				homeTeam.setAtsWins(homeTeam.getAtsWins() + 1);
+				awayTeam.setAtsLosses(awayTeam.getAtsLosses() + 1);
+			} else if (Math.abs(difference) > gameLine.getSpread()) {
+				homeTeam.setAtsLosses(homeTeam.getAtsLosses() + 1);
+				awayTeam.setAtsWins(awayTeam.getAtsWins() + 1);
+			}
+		}
+	}
+
+	private void updateTeam(Team team) throws Exception {
+		TeamBO teamBO= null;
+		if (team != null) {
+			teamBO = new TeamBO();
+			teamBO.updateTeam(team);
+		}
+	}
+
+	private GameLine getGameLineByHomeTeam(Team homeTeam) throws Exception {
+		GameLineBO gameLineService = null;
+		GameLine gameLine = null;
+		if (homeTeam != null) {
+			gameLineService = new GameLineBO();
+			gameLine = gameLineService.getSpreadByHomeTeam(homeTeam);
+		}
+		return gameLine;
+	}
 }

@@ -8,9 +8,11 @@ import com.entities.Team;
 
 public class TeamDAOImpl implements TeamDAO {
 	Session session;
-	public TeamDAOImpl(){
+
+	public TeamDAOImpl() {
 		session = SessionServiceImpl.getSession();
 	}
+
 	@Override
 	public Team findByScheduleName(String scheduleName) throws Exception {
 		String queryString = "SELECT t FROM Team t WHERE t.scheduleTeamName = :scheduleName";
@@ -18,7 +20,8 @@ public class TeamDAOImpl implements TeamDAO {
 		try {
 
 			if (scheduleName != null) {
-				team = (Team) session.createQuery(queryString).setParameter("scheduleName", scheduleName).uniqueResult();
+				team = (Team) session.createQuery(queryString).setParameter("scheduleName", scheduleName)
+						.uniqueResult();
 			}
 		} catch (Exception e) {
 			throw e;
@@ -41,4 +44,32 @@ public class TeamDAOImpl implements TeamDAO {
 		return team;
 	}
 
+	@Override
+	public void updateTeam(Team team) throws Exception {
+		Session session = null;
+		Team existingTeam = null;
+		try {
+			if (team != null) {
+				session = SessionServiceImpl.getSession();
+				session.beginTransaction();
+				existingTeam = session.find(Team.class, team.getId());
+				if (existingTeam != null) {
+					setTeamFields(existingTeam, team);
+					session.merge(existingTeam);
+				}
+			}
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+
+	private void setTeamFields(Team existingTeam, Team updates) {
+		if (existingTeam != null && updates != null) {
+			existingTeam.setAtsLosses(updates.getAtsLosses());
+			existingTeam.setAtsWins(updates.getAtsWins());
+			existingTeam.setWins(updates.getWins());
+			existingTeam.setLosses(updates.getLosses());
+			existingTeam.setWinLossDifferenceSeason(existingTeam.getWins() - existingTeam.getLosses());
+		}
+	}
 }

@@ -61,26 +61,30 @@ public class GameLineBO {
 												.substring(event.getName().indexOf("@") + 1, event.getName().length())
 												.trim().equalsIgnoreCase(event.getCompetitorOne().getName())) {
 
-											homeTeam = tService.findByLineName(event.getCompetitorOne().getName().trim());
-											awayTeam = tService.findByLineName(event.getCompetitorTwo().getName().trim());
-											
+											homeTeam = tService
+													.findByLineName(event.getCompetitorOne().getName().trim());
+											awayTeam = tService
+													.findByLineName(event.getCompetitorTwo().getName().trim());
+
 											if (event.getCompetitorOne().getLine() != null
 													&& event.getCompetitorOne().getLine().getChoice() != null
 													&& event.getCompetitorOne().getLine().getChoice()
 															.getNumber() != null) {
-												
+
 												spreadString = event.getCompetitorOne().getLine().getChoice()
 														.getNumber();
 											}
 										} else {
 
-											awayTeam = tService.findByLineName(event.getCompetitorOne().getName().trim());
-											homeTeam = tService.findByLineName(event.getCompetitorTwo().getName().trim());
+											awayTeam = tService
+													.findByLineName(event.getCompetitorOne().getName().trim());
+											homeTeam = tService
+													.findByLineName(event.getCompetitorTwo().getName().trim());
 											if (event.getCompetitorTwo().getLine() != null
 													&& event.getCompetitorTwo().getLine().getChoice() != null
 													&& event.getCompetitorTwo().getLine().getChoice()
 															.getNumber() != null) {
-												
+
 												spreadString = event.getCompetitorTwo().getLine().getChoice()
 														.getNumber();
 											}
@@ -136,5 +140,19 @@ public class GameLineBO {
 		} catch (Exception e) {
 			throw e;
 		}
+	}
+
+	public GameLine getSpreadByHomeTeam(Team homeTeam) throws Exception{
+		GameLineService gameLineService = null;
+		GameLine gameLine = null;
+		try{
+			if(homeTeam != null){
+				gameLineService = new GameLineServiceImpl();
+				gameLine = gameLineService.getByHomeTeam(homeTeam);
+			}
+		}catch(Exception e){
+			throw e;
+		}
+		return gameLine;
 	}
 }

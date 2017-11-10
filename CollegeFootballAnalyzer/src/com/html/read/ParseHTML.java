@@ -16,7 +16,9 @@ import com.html.read.utilities.Constants;
 import com.html.read.utilities.DateUtility;
 
 public class ParseHTML {
-
+//TODO - Create Team BO and update team record from last week schedule.
+//TODO - Create a process that updates Team record and against the spread and Pick table correction
+	//TODO - create a process that pulls game results and compares to spread of that week.
 	public String parseHTMLToTable(String html) throws Exception {
 		StringBuilder tableBody = null;
 		BufferedReader reader = null;
