@@ -57,6 +57,7 @@ public class TeamDAOImpl implements TeamDAO {
 					setTeamFields(existingTeam, team);
 					session.merge(existingTeam);
 				}
+				session.getTransaction().commit();
 			}
 		} catch (Exception e) {
 			throw e;

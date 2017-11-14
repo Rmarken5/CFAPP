@@ -1,5 +1,9 @@
 package com.analyzer.dao;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
@@ -31,8 +35,10 @@ public class GameLineDAOImpl implements GameLineDAO {
 		Session session = null;
 		final String GET_BY_HOME_TEAM = "SELECT g FROM GameLine g where g.homeTeam.id = :id";
 		Query q = null;
+		//TODO - Make results for current week.
 		try {
 			if (homeTeam != null) {
+				System.out.println(homeTeam.getSpreadTeamName());
 				session = SessionServiceImpl.getSession();
 				q = session.createQuery(GET_BY_HOME_TEAM);
 				q.setParameter("id", homeTeam.getId());
@@ -46,4 +52,51 @@ public class GameLineDAOImpl implements GameLineDAO {
 
 		return gameLine;
 	}
+
+	@Override
+	public Long getMaxWeekNum() throws Exception {
+        Long weekNumber = null;
+        final String GET_MAX_WEEK = "SELECT MAX(gl.weekNumber) FROM GameLine gl";
+        Session session = null;
+        Query q = null;
+        try{
+        	session = SessionServiceImpl.getSession();
+        	q = session.createQuery(GET_MAX_WEEK, Long.class);
+        	session.beginTransaction();
+        	weekNumber = (Long)q.getSingleResult();
+        	session.getTransaction().commit();
+        }catch(Exception e){
+        	throw e;
+        }
+		
+		return weekNumber;
+	}
+
+	
+	@Override
+	public List<GameLine> getGameLineByWeek(Long weekNumber) {
+        Map<String,Object> parameters = null;
+        List<GameLine> results = null;
+        Session session = null;
+        Query q = null;
+        final String GET_LINE_BY_WEEK = "SELECT gl FROM GameLine gl where gl.weekNumber = :weekNum";
+        try{
+        	if(weekNumber != null){
+        		parameters = new HashMap<String,Object>();
+        		parameters.put("weekNum", weekNumber);
+        		session = SessionServiceImpl.getSession();
+        		q = session.createQuery(GET_LINE_BY_WEEK, GameLine.class);
+        		q.setParameter("weekNum", weekNumber);
+        		session.beginTransaction();
+        		results = q.getResultList();
+        		session.getTransaction().commit();
+        	}
+        }catch(Exception e){
+        	throw e;
+        }
+		
+		return results;
+	
+	}
+	
 }

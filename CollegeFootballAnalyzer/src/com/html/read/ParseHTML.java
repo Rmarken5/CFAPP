@@ -16,9 +16,12 @@ import com.html.read.utilities.Constants;
 import com.html.read.utilities.DateUtility;
 
 public class ParseHTML {
-//TODO - Create Team BO and update team record from last week schedule.
-//TODO - Create a process that updates Team record and against the spread and Pick table correction
-	//TODO - create a process that pulls game results and compares to spread of that week.
+    /**
+     * Finds the list of games from the HTML passed
+     * @param html - HTML containing games
+     * @return html of the games.
+     * @throws Exception
+     */
 	public String parseHTMLToTable(String html) throws Exception {
 		StringBuilder tableBody = null;
 		BufferedReader reader = null;
@@ -48,7 +51,12 @@ public class ParseHTML {
 		}
 		return tableBody.toString();
 	}
-
+    /**
+     * Gets games from last Wednesday to this Wednesday.
+     * @param table - HTML Table to parse
+     * @return List of games.
+     * @throws Exception
+     */
 	public List<Game> parseTableToGames(String table) throws Exception {
 		List<Game> results = null;
 		Game currentGame = null;

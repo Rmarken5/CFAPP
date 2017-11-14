@@ -21,7 +21,6 @@ public class GameLineBO {
 	public void loadLines(Schedule schedule) throws Exception {
 		TeamService tService = null;
 		ScheduleService sService = null;
-		GameLineService gameService = null;
 		GameLine gameLine = null;
 		Long weekNumber = null;
 		Team homeTeam = null;
@@ -40,7 +39,6 @@ public class GameLineBO {
 					if (eventType.getDates() != null) {
 						dates = eventType.getDates();
 						sService = new ScheduleServiceImpl();
-						gameService = new GameLineServiceImpl();
 						weekNumber = sService.getLatestWeekNum() + 1L;
 						for (Iterator<Date> dateIter = dates.iterator(); dateIter.hasNext();) {
 							date = dateIter.next();
@@ -110,7 +108,7 @@ public class GameLineBO {
 											}
 											gameLine.setSpread(spread);
 											gameLine.setWeekNumber(weekNumber);
-											gameService.insertGameLine(gameLine);
+											insertGameLine(gameLine);
 										} else {
 											System.out.println("Not in schedule: " + event.getCompetitorOne().getName()
 													+ " or " + event.getCompetitorTwo().getName());
@@ -123,6 +121,18 @@ public class GameLineBO {
 				}
 			}
 		} catch (Exception e) {
+			throw e;
+		}
+	}
+
+	public void insertGameLine(GameLine gameLine) throws Exception {
+		GameLineService gameService = null;
+		try{
+			if(gameLine != null){
+		    	gameService = new GameLineServiceImpl();	
+		        gameService.insertGameLine(gameLine);
+			}
+		}catch(Exception e){
 			throw e;
 		}
 	}
@@ -155,4 +165,5 @@ public class GameLineBO {
 		}
 		return gameLine;
 	}
+	
 }

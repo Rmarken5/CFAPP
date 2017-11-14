@@ -13,4 +13,22 @@ public class TeamBO {
 			teamService.updateTeam(team);
 		}
 	}
+	
+	public Team getTeamByLineName(String lineName) throws Exception{
+		TeamService teamService = null;
+		if(lineName != null && !"".equals(lineName)){
+			teamService = new TeamServiceImpl();
+			return teamService.findByLineName(lineName);
+		}
+		return null;
+	}
+	
+	public Team getTeamByScheduleName(String scheduleName) throws Exception{
+		TeamService teamService = null;
+		if(scheduleName != null && !"".equals(scheduleName)){
+			teamService = new TeamServiceImpl();
+			return teamService.findByScheduleName(scheduleName);
+		}
+		return null;
+	}
 }

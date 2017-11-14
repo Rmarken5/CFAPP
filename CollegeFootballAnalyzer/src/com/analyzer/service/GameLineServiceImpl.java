@@ -1,5 +1,7 @@
 package com.analyzer.service;
 
+import java.util.List;
+
 import com.analyzer.dao.GameLineDAO;
 import com.analyzer.dao.GameLineDAOImpl;
 import com.entities.GameLine;
@@ -19,5 +21,17 @@ public class GameLineServiceImpl implements GameLineService {
 		
 		return gameLineDAO.getByHomeTeam(homeTeam);
 	}
+	
+	@Override
+	public Long getMaxWeekNum() throws Exception {
 
+		return gameLineDAO.getMaxWeekNum();
+	}
+
+	@Override
+	public List<GameLine> getGameLineByWeek(Long weekNumber) throws Exception {
+		
+		return gameLineDAO.getGameLineByWeek(weekNumber);
+	
+	}
 }
