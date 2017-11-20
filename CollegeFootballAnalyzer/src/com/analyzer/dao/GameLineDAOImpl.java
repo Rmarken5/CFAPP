@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
@@ -13,6 +14,8 @@ import com.entities.Team;
 
 public class GameLineDAOImpl implements GameLineDAO {
 
+	Logger log = Logger.getLogger(GameLineDAOImpl.class);
+	
 	@Override
 	public void insertGameLine(GameLine gameLine) throws Exception {
 		Session session = null;
@@ -38,7 +41,7 @@ public class GameLineDAOImpl implements GameLineDAO {
 		//TODO - Make results for current week.
 		try {
 			if (homeTeam != null && weekNumber != null) {
-				System.out.println(homeTeam.getSpreadTeamName());
+				log.warn(homeTeam.getSpreadTeamName());
 				session = SessionServiceImpl.getSession();
 				q = session.createQuery(GET_BY_HOME_TEAM);
 				q.setParameter("id", homeTeam.getId());
@@ -48,8 +51,8 @@ public class GameLineDAOImpl implements GameLineDAO {
 				session.getTransaction().commit();
 			}
 		} catch (Exception e) {
-			System.out.println(homeTeam.toString() + " Week number: " + weekNumber);
-			throw e;
+			log.error(homeTeam.toString() + " Week number: " + weekNumber,e);
+			return null;
 		}
 
 		return gameLine;
@@ -68,7 +71,9 @@ public class GameLineDAOImpl implements GameLineDAO {
         	weekNumber = (Long)q.getSingleResult();
         	session.getTransaction().commit();
         }catch(Exception e){
-        	throw e;
+        	
+        	log.error("Error in getMaxWeekNum " + e);
+        	return null;
         }
 		
 		return weekNumber;
@@ -94,7 +99,8 @@ public class GameLineDAOImpl implements GameLineDAO {
         		session.getTransaction().commit();
         	}
         }catch(Exception e){
-        	throw e;
+        	log.error("Error in getGameLineByWeek: " + weekNumber+". ", e);
+        	return null;
         }
 		
 		return results;

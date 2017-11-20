@@ -3,6 +3,8 @@ package com.analyzer.bo;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import com.analyzer.service.GameLineService;
 import com.analyzer.service.GameLineServiceImpl;
 import com.analyzer.service.ScheduleService;
@@ -17,6 +19,7 @@ import com.entities.Schedule;
 import com.entities.Team;
 
 public class GameLineBO {
+	Logger log = Logger.getLogger(GameLineBO.class);
 
 	public void loadLines(Schedule schedule) throws Exception {
 		TeamService tService = null;
@@ -111,7 +114,7 @@ public class GameLineBO {
 											insertGameLine(gameLine);
 											
 										} else {
-											System.out.println("Not in schedule: " + event.getCompetitorOne().getName()
+											log.warn("Not in schedule: " + event.getCompetitorOne().getName()
 													+ " or " + event.getCompetitorTwo().getName());
 										}
 									}

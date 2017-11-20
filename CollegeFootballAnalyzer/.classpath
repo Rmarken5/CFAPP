@@ -26,5 +26,6 @@
 	<classpathentry kind="lib" path="/home/pegasus/workspace-RSS/JARS/commons-validator-1.6-test-sources.jar"/>
 	<classpathentry kind="lib" path="/home/pegasus/workspace-RSS/JARS/mailactivation/activation.jar"/>
 	<classpathentry kind="lib" path="/home/pegasus/workspace-RSS/JARS/mailactivation/mail.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Log4J"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

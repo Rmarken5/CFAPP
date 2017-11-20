@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Query;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
 import com.analyzer.service.ScheduleService;
@@ -18,9 +19,12 @@ import com.entities.SeasonSchedule;
 
 public class ScheduleDAOImpl implements ScheduleDAO {
 
+	Logger log = Logger.getLogger(ScheduleDAOImpl.class);
+	
+	
 	@Override
 	public void insertIntoSchedule(SeasonSchedule schedule) throws Exception {
-		
+				
 		Session session = SessionServiceImpl.getSession();
 		try{
 		if(schedule != null){
@@ -29,8 +33,8 @@ public class ScheduleDAOImpl implements ScheduleDAO {
             session.getTransaction().commit();
 		}
 		}catch(Exception e){
-		   System.out.println( schedule.toString());
-			e.printStackTrace();
+			log.error("Error in insertIntoSchedule...");
+			log.error(schedule.toString(), e);
 		}
 	}
 
@@ -39,10 +43,16 @@ public class ScheduleDAOImpl implements ScheduleDAO {
 		Long weekNumber = null;
 		Session session = SessionServiceImpl.getSession();
 		String query = "SELECT MAX(s.weekNumber) FROM SeasonSchedule s";
-		
+		try{
 		session.getTransaction().begin();
 		weekNumber = session.createQuery(query, Long.class).getSingleResult();
 		session.getTransaction().commit();
+		}catch(Exception e){
+			
+			log.error("Error in getLatestWeekNum...",e);
+			return null;
+			
+		}
 		return weekNumber;
 		
 	}
@@ -64,9 +74,10 @@ public class ScheduleDAOImpl implements ScheduleDAO {
 				session.getTransaction().commit();
 			}
 		}catch(Exception e){
-            System.out.println(homeTeam.toString() + " week number: " + weekNumber);
+			log.error("Error in getShceudleRowByWeekHomeTeam()...");
+			log.error(homeTeam.toString() + " week number: " + weekNumber,e);
              
-			throw e;
+			return null;
 		}
 		
 		return schedule;

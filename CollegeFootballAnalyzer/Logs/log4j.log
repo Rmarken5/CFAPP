@@ -1,0 +1,5 @@
+main ERROR test.Test - This is an error.
+main DEBUG test.Test - This is debug
+main INFO  test.Test - This is info
+main WARN  test.Test - This is warn
+main FATAL test.Test - This is fatal

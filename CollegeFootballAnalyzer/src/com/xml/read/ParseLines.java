@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
@@ -26,6 +27,7 @@ import com.xml.validation.SourceValidator;
 
 
 public class ParseLines {
+	Logger log = Logger.getLogger(ParseLines.class);
     SourceValidator sourceValidator = new SourceValidator();
 	DateFormat timeFormat = new SimpleDateFormat("hh:mm");
 	DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
@@ -43,7 +45,7 @@ public class ParseLines {
 				reader = new SAXReader();
 				link = new URL(url);
 				document = reader.read(link.openStream());
-				System.out.println( document.getRootElement());
+				log.info(document.getRootElement());
 				scheduleElement = document.getRootElement();
 				schedule = parseSchedule(scheduleElement);
 			}
@@ -98,7 +100,7 @@ public class ParseLines {
 		Element element = null;
 		Date lineDate = null;
 		if(eventType != null && eventType.getName().equals("EventType")){
-			System.out.println(eventType.toString());
+			log.info(eventType.toString());
 			attributes = eventType.attributes();
 			if(attributes != null && attributes.size() > 0){
 				etObject = new EventType();
@@ -127,7 +129,7 @@ public class ParseLines {
 							
 						}
 							
-						System.out.println(eO.getName());
+						log.info(eO.getName());
 					}
 				}
 			}

@@ -1,10 +1,11 @@
 package com.xml.validation;
 
 import org.apache.commons.validator.routines.UrlValidator;
+import org.apache.log4j.Logger;
 
 
 public class SourceValidator {
-
+    Logger log = Logger.getLogger(SourceValidator.class);
 	public boolean isUrlXMLFormat(String url){
 		try {
 			if(isUrlValid(url)){
@@ -30,7 +31,7 @@ public class SourceValidator {
 			}
 		}catch(Exception e){
 			
-			System.out.println(e.getStackTrace());
+			log.error("isURLValid ran with exception: Returning false....", e);
 			return false;
 		}
 	}

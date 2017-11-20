@@ -90,11 +90,9 @@ public class ParseHTML {
 							if (cell != null && !"".equals(cell)) {
 								
 								
-								//System.out.println(cell + System.lineSeparator());
 								dataStat = cell.substring(cell.indexOf("data-stat=\""));
 								dataStat = dataStat.substring(dataStat.indexOf('"') + 1,
 										StringUtils.ordinalIndexOf(dataStat, "\"", 2));
-								//System.out.println(dataStat);
 								switch (dataStat) {
 								case Constants.RANKER:
 									ranker = cell.substring(StringUtils.ordinalIndexOf(cell, ">", 2) + 1,
