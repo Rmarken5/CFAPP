@@ -13,18 +13,18 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class DateUtility {
-	private static LocalDate nextOrSameWed = null;
-	private static LocalDate lastWednesday = null;
+	private static LocalDate nextOrSameMonday = null;
+	private static LocalDate lastMonday = null;
 
 	static {
 		Calendar cal = Calendar.getInstance();
 
-		if (cal.get(Calendar.DAY_OF_WEEK) > Calendar.WEDNESDAY) {
-			nextOrSameWed = LocalDate.now().with(TemporalAdjusters.previous(DayOfWeek.WEDNESDAY));
-			lastWednesday = nextOrSameWed.with(TemporalAdjusters.previous(DayOfWeek.WEDNESDAY));
-		} else if (cal.get(Calendar.DAY_OF_WEEK) <= Calendar.WEDNESDAY) {
-			nextOrSameWed = LocalDate.now().with(TemporalAdjusters.nextOrSame(DayOfWeek.WEDNESDAY));
-			lastWednesday = nextOrSameWed.with(TemporalAdjusters.previous(DayOfWeek.WEDNESDAY));
+		if (cal.get(Calendar.DAY_OF_WEEK) > Calendar.MONDAY) {
+			nextOrSameMonday = LocalDate.now().with(TemporalAdjusters.previous(DayOfWeek.MONDAY));
+			lastMonday = nextOrSameMonday.with(TemporalAdjusters.previous(DayOfWeek.MONDAY));
+		} else if (cal.get(Calendar.DAY_OF_WEEK) <= Calendar.MONDAY) {
+			nextOrSameMonday = LocalDate.now().with(TemporalAdjusters.nextOrSame(DayOfWeek.MONDAY));
+			lastMonday = nextOrSameMonday.with(TemporalAdjusters.previous(DayOfWeek.MONDAY));
 		}
 	}
 
@@ -49,12 +49,12 @@ public class DateUtility {
 		return ts;
 	}
 
-	public static boolean isDateBetweenLastWedToThis(Date date) {
+	public static boolean isDateBetweenLastMondayToThis(Date date) {
 		boolean val = false;
 		LocalDate ld = null;
 		if(date != null){
 		    ld = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		    val = (ld.isAfter(lastWednesday) && ld.isBefore(nextOrSameWed));
+		    val = (ld.isAfter(lastMonday) && ld.isBefore(nextOrSameMonday));
 		}
 		return val;
 	}

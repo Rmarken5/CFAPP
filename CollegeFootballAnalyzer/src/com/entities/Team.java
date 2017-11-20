@@ -3,7 +3,7 @@ package com.entities;
 import java.io.Serializable;
 
 public class Team implements Serializable{
-	
+
 	/**
 	 * 
 	 */
@@ -126,5 +126,11 @@ public class Team implements Serializable{
 		return true;
 	}
 	
+	@Override
+	public String toString() {
+		return "Team [id=" + id + ", spreadTeamName=" + spreadTeamName + ", scheduleTeamName=" + scheduleTeamName
+				+ ", wins=" + wins + ", losses=" + losses + ", atsWins=" + atsWins + ", atsLosses=" + atsLosses
+				+ ", winLossDifferenceSeason=" + winLossDifferenceSeason + "]";
+	}
 	
 }

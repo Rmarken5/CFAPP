@@ -6,7 +6,16 @@ import com.analyzer.bo.ScheduleBO;
 import com.entities.Game;
 import com.html.read.ParseHTML;
 import com.html.read.ReadURL;
-
+/**
+ * 
+ * This is the third step in the program. This class will record the outcomes of the games played for the previous week.
+ * It will update the team table with the outright outcomes and the "against the spread" outcomes.
+ * Lastly, it will update the pick table on whether or not the program picked the correct team to win
+ * against the spread.
+ * 
+ * @author pegasus
+ *
+ */
 public class UpdateScoresTable {
 
 	public static void main(String[] args) {

@@ -1,8 +1,13 @@
 package com.analyzer.run;
 
 import com.analyzer.bo.PickBO;
-
-public class UpdatePickTable {
+/**
+ * This class loads the pick table with the systems predictions. This is the second step to run
+ * after the game line table has been populated.
+ * @author pegasus
+ *
+ */
+public class RunPredictPicks {
 
 	
 	public static void main(String[] args) {

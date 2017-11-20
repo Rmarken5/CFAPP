@@ -17,9 +17,9 @@ public class GameLineServiceImpl implements GameLineService {
 	}
 
 	@Override
-	public GameLine getByHomeTeam(Team homeTeam) throws Exception {
+	public GameLine getByHomeTeam(Team homeTeam, Long weekNumber) throws Exception {
 		
-		return gameLineDAO.getByHomeTeam(homeTeam);
+		return gameLineDAO.getByHomeTeam(homeTeam, weekNumber);
 	}
 	
 	@Override

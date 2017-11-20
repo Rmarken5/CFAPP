@@ -24,5 +24,7 @@
 	<classpathentry kind="lib" path="/home/pegasus/workspace-RSS/JARS/commons-validator-1.6-sources.jar"/>
 	<classpathentry kind="lib" path="/home/pegasus/workspace-RSS/JARS/commons-validator-1.6-tests.jar"/>
 	<classpathentry kind="lib" path="/home/pegasus/workspace-RSS/JARS/commons-validator-1.6-test-sources.jar"/>
+	<classpathentry kind="lib" path="/home/pegasus/workspace-RSS/JARS/mailactivation/activation.jar"/>
+	<classpathentry kind="lib" path="/home/pegasus/workspace-RSS/JARS/mailactivation/mail.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

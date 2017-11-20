@@ -3,6 +3,7 @@ package com.analyzer.service;
 import com.analyzer.dao.ScheduleDAO;
 import com.analyzer.dao.ScheduleDAOImpl;
 import com.entities.SeasonSchedule;
+import com.entities.Team;
 
 public class ScheduleServiceImpl implements ScheduleService {
 
@@ -20,6 +21,12 @@ public class ScheduleServiceImpl implements ScheduleService {
 		return scheduleDAO.getLatestWeekNum();
 	
 	}
+ 
+	@Override
+	public SeasonSchedule getScheduleRowByWeekHomeTeam(Team homeTeam, Long weekNumber) throws Exception {
 
+		return scheduleDAO.getScheduleRowByWeekHomeTeam(homeTeam, weekNumber);
+	
+	}
 
 }

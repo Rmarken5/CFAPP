@@ -3,17 +3,26 @@ package com.analyzer.bo;
 import java.util.Iterator;
 import java.util.List;
 
+import com.analyzer.service.PickService;
+import com.analyzer.service.PickServiceImpl;
 import com.analyzer.service.ScheduleService;
 import com.analyzer.service.ScheduleServiceImpl;
 import com.analyzer.service.TeamService;
 import com.analyzer.service.TeamServiceImpl;
 import com.entities.Game;
 import com.entities.GameLine;
+import com.entities.Pick;
 import com.entities.SeasonSchedule;
 import com.entities.Team;
 
 public class ScheduleBO {
-
+    /**
+     * Loads the Schedule table with the current weeks games.
+     * This is to be invoked after the game line table has been populated
+     * so that picks can be derived from this weeks matchup.
+     * @param games
+     * @throws Exception
+     */
 	public void loadGamesIntoSchedule(List<Game> games) throws Exception {
 		Team homeTeam = null;
 		Team awayTeam = null;
@@ -22,10 +31,14 @@ public class ScheduleBO {
 		SeasonSchedule schedule = null;
 		TeamService ts = new TeamServiceImpl();
 		ScheduleService scheduleService = new ScheduleServiceImpl();
-		GameLine gameLine = null;
+	GameLine gameLine = null;
+		PickService pickService = null;
+		Pick pick = null;
+		PickBO pickBO = null;
 		try {
 			if (games != null && games.size() > 0) {
-
+                pickService = new PickServiceImpl();
+                pickBO = new PickBO();
 				gameIter = games.iterator();
 				while (gameIter.hasNext()) {
 					Game game = gameIter.next();
@@ -51,12 +64,17 @@ public class ScheduleBO {
 								
 								calculateWinsLoss(homeTeam, awayTeam, winningTeam);
 								
-								gameLine = getGameLineByHomeTeam(homeTeam);
+								gameLine = getGameLineByHomeTeam(homeTeam, (long)game.getWeekNumber());
 								
 								calculateAgainstTheSpread(homeTeam, awayTeam, gameLine, game);
 								
 								updateTeam(homeTeam);
 								updateTeam(awayTeam);
+								
+								pick = pickService.getPickByHomeTeamAndWeek(homeTeam, schedule.getWeekNumber());
+							
+								pickBO.determineSpreadResults(pick);
+							
 							} else {
 								System.out.println("Missing Team: " + game.getWinner().getSchoolName());
 							}
@@ -116,12 +134,12 @@ public class ScheduleBO {
 		}
 	}
 
-	private GameLine getGameLineByHomeTeam(Team homeTeam) throws Exception {
+	private GameLine getGameLineByHomeTeam(Team homeTeam, Long weekNumber) throws Exception {
 		GameLineBO gameLineService = null;
 		GameLine gameLine = null;
 		if (homeTeam != null) {
 			gameLineService = new GameLineBO();
-			gameLine = gameLineService.getSpreadByHomeTeam(homeTeam);
+			gameLine = gameLineService.getSpreadByHomeTeam(homeTeam, weekNumber);
 		}
 		return gameLine;
 	}

@@ -30,23 +30,25 @@ public class GameLineDAOImpl implements GameLineDAO {
 	}
 
 	@Override
-	public GameLine getByHomeTeam(Team homeTeam) throws Exception {
+	public GameLine getByHomeTeam(Team homeTeam, Long weekNumber) throws Exception {
 		GameLine gameLine = null;
 		Session session = null;
-		final String GET_BY_HOME_TEAM = "SELECT g FROM GameLine g where g.homeTeam.id = :id";
+		final String GET_BY_HOME_TEAM = "SELECT g FROM GameLine g where g.homeTeam.id = :id AND g.weekNumber = :weekNum";
 		Query q = null;
 		//TODO - Make results for current week.
 		try {
-			if (homeTeam != null) {
+			if (homeTeam != null && weekNumber != null) {
 				System.out.println(homeTeam.getSpreadTeamName());
 				session = SessionServiceImpl.getSession();
 				q = session.createQuery(GET_BY_HOME_TEAM);
 				q.setParameter("id", homeTeam.getId());
+				q.setParameter("weekNum", weekNumber);
 				session.beginTransaction();
 				gameLine = (GameLine) q.getSingleResult();
 				session.getTransaction().commit();
 			}
 		} catch (Exception e) {
+			System.out.println(homeTeam.toString() + " Week number: " + weekNumber);
 			throw e;
 		}
 

@@ -109,6 +109,7 @@ public class GameLineBO {
 											gameLine.setSpread(spread);
 											gameLine.setWeekNumber(weekNumber);
 											insertGameLine(gameLine);
+											
 										} else {
 											System.out.println("Not in schedule: " + event.getCompetitorOne().getName()
 													+ " or " + event.getCompetitorTwo().getName());
@@ -152,13 +153,13 @@ public class GameLineBO {
 		}
 	}
 
-	public GameLine getSpreadByHomeTeam(Team homeTeam) throws Exception{
+	public GameLine getSpreadByHomeTeam(Team homeTeam, Long weekNumber) throws Exception{
 		GameLineService gameLineService = null;
 		GameLine gameLine = null;
 		try{
-			if(homeTeam != null){
+			if(homeTeam != null && weekNumber != null){
 				gameLineService = new GameLineServiceImpl();
-				gameLine = gameLineService.getByHomeTeam(homeTeam);
+				gameLine = gameLineService.getByHomeTeam(homeTeam, weekNumber);
 			}
 		}catch(Exception e){
 			throw e;

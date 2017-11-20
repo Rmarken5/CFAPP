@@ -5,6 +5,7 @@ import java.util.List;
 import com.analyzer.dao.PickDAO;
 import com.analyzer.dao.PickDAOImpl;
 import com.entities.Pick;
+import com.entities.Team;
 
 public class PickServiceImpl implements PickService {
 
@@ -29,5 +30,10 @@ public class PickServiceImpl implements PickService {
 	@Override
 	public Long getMaxWeekNum() {
 		return pickDAO.getMaxWeekNum();
+	}
+	
+	@Override
+	public Pick getPickByHomeTeamAndWeek(Team homeTeam, Long weekNumber) {
+		return pickDAO.getPickByHomeTeamAndWeek(homeTeam, weekNumber);
 	}
 }

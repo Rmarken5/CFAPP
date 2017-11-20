@@ -126,6 +126,12 @@ public class SeasonSchedule implements Serializable{
 			return false;
 		return true;
 	}
+	@Override
+	public String toString() {
+		return "SeasonSchedule [scheduleId=" + scheduleId + ", weekNumber=" + weekNumber + ", gameTimestamp="
+				+ gameTimestamp + ", homeTeam=" + homeTeam + ", awayTeam=" + awayTeam + ", homeTeamScore="
+				+ homeTeamScore + ", awayTeamScore=" + awayTeamScore + ", winningTeam=" + winningTeam + "]";
+	}
 	
 	
 }

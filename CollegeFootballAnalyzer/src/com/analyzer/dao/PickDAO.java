@@ -3,6 +3,7 @@ package com.analyzer.dao;
 import java.util.List;
 
 import com.entities.Pick;
+import com.entities.Team;
 
 public interface PickDAO {
 	
@@ -13,5 +14,7 @@ public interface PickDAO {
 	public List<Pick> getPicksByWeek(Long weekNum);
 	
 	public Long getMaxWeekNum();
+	
+	public Pick getPickByHomeTeamAndWeek(Team homeTeam, Long weekNumber);
 	
 }

@@ -9,7 +9,7 @@ public interface GameLineService {
 
 	public void insertGameLine(GameLine gameLine) throws Exception;
 
-	public GameLine getByHomeTeam(Team homeTeam) throws Exception;
+	public GameLine getByHomeTeam(Team homeTeam, Long weekNumber) throws Exception;
 	
 	public Long getMaxWeekNum() throws Exception;
 	

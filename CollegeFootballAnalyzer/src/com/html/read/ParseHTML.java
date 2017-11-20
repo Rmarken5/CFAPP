@@ -161,7 +161,7 @@ public class ParseHTML {
 							}
 						}
 						Timestamp ts = DateUtility.formTimestampFromDateTime(dateGame, timeGame);
-						if(DateUtility.isDateBetweenLastWedToThis(new Date(ts.getTime()))){
+						if(DateUtility.isDateBetweenLastMondayToThis(new Date(ts.getTime()))){
 						    currentGame.setDateGame(ts);
 						    currentGame.setLoser(loser);
 						    currentGame.setWinner(winner);

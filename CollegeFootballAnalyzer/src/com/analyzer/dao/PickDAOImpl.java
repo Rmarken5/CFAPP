@@ -7,6 +7,7 @@ import org.hibernate.query.Query;
 
 import com.analyzer.service.SessionServiceImpl;
 import com.entities.Pick;
+import com.entities.Team;
 
 public class PickDAOImpl implements PickDAO {
 
@@ -89,7 +90,28 @@ public class PickDAOImpl implements PickDAO {
 
 		return result;
 	}
-	
+	@Override
+	public Pick getPickByHomeTeamAndWeek(Team homeTeam, Long weekNumber) {
+		Session session = null;
+		final String QUERY = "SELECT p FROM Pick p where p.weekNumber = :weekNum AND p.homeTeam = :homeTeam";
+		Query q = null;
+		Pick pick = null;
+		try{
+			if(homeTeam != null && weekNumber != null){
+			    session = SessionServiceImpl.getSession();
+			    session.beginTransaction();
+			    q = session.createQuery(QUERY, Pick.class);
+			    q.setParameter("weekNum", weekNumber);
+			    q.setParameter("homeTeam", homeTeam);
+			    pick = (Pick) q.getSingleResult();
+			    session.getTransaction().commit();
+			}
+			
+		}catch(Exception e){
+			throw e;
+		}
+		return pick;
+	}
 	private void setUpdatePickFields(Pick existingPick, Pick newPick){
 		if(existingPick != null && newPick != null){
 			existingPick.setAwayTeam(newPick.getAwayTeam());
