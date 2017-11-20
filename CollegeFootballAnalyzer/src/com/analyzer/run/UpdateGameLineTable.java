@@ -1,5 +1,7 @@
 package com.analyzer.run;
 
+import org.apache.log4j.Logger;
+
 import com.analyzer.bo.GameLineBO;
 import com.entities.Schedule;
 import com.xml.read.ParseLines;
@@ -12,6 +14,8 @@ import com.xml.read.ParseLines;
  */
 public class UpdateGameLineTable {
 
+	static Logger log = Logger.getLogger(UpdateGameLineTable.class);
+	
 	public static void main(String[] args) {
 		ParseLines pl = null;
 		Schedule schedule = null;
@@ -25,9 +29,12 @@ public class UpdateGameLineTable {
 				glBO.loadLines(schedule);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error(e);
+			log.info("UpdateGameLineTable has finished with an error...");
+			System.exit(-99);
 		}
-		
+		log.info("UpdateGameLineTable has finished...");
+		System.exit(0);
 	}
 
 }

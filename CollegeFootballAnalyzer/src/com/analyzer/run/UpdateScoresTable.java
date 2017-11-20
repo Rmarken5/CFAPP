@@ -2,6 +2,8 @@ package com.analyzer.run;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import com.analyzer.bo.ScheduleBO;
 import com.entities.Game;
 import com.html.read.ParseHTML;
@@ -17,7 +19,9 @@ import com.html.read.ReadURL;
  *
  */
 public class UpdateScoresTable {
-
+	
+    static Logger log = Logger.getLogger(UpdateScoresTable.class);
+    
 	public static void main(String[] args) {
 		String html = null;
 		String table = null;
@@ -38,7 +42,8 @@ public class UpdateScoresTable {
 		    	}
 		    }
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("Update Scores table failed with exception...", e);
+			System.exit(-99);
 		}
 		System.exit(0);
 	}

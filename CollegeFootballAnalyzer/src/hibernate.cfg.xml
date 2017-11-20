@@ -15,15 +15,15 @@
 		<!-- Assume test is the database name -->
 
 		<property name="hibernate.connection.url">
-			jdbc:mysql://10.0.0.94/college_football_test
+			jdbc:mysql://10.0.0.94/college_football
 		</property>
 
 		<property name="hibernate.connection.username">
-			tester
+			ryan
 		</property>
 
 		<property name="hibernate.connection.password">
-			tester
+			Zeppelin32!
 		</property>
 
 		<property name="hibernate.c3p0.min_size">5</property>
