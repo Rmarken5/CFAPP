@@ -103,28 +103,33 @@ public class ScheduleBO {
 			homeTeam.setWins(homeTeam.getWins() + 1);
 			awayTeam.setLosses(awayTeam.getLosses() + 1);
 		} else {
-			homeTeam.setWins(homeTeam.getWins() + 1);
-			awayTeam.setLosses(awayTeam.getLosses() + 1);
+			awayTeam.setWins(awayTeam.getWins() + 1);
+			homeTeam.setLosses(homeTeam.getLosses() + 1);
 		}
 	}
 
 	private void calculateAgainstTheSpread(Team homeTeam, Team awayTeam, GameLine gameLine, Game game) {
 		double difference;
-		difference = game.getHomeTeam().getPoints() - game.getAwayTeam().getPoints();
+		//Difference between the two teams in points to compare to the spread
+		difference = game.getHomeTeam().getPoints() - game.getAwayTeam().getPoints(); 
+		//Home team was favored. Can use this to determine ats outcome.
 		if (gameLine.getSpread() < 0) {
-
+            //Home team scored more points than they were favored by.
 			if (difference > Math.abs(gameLine.getSpread())) {
 				homeTeam.setAtsWins(homeTeam.getAtsWins() + 1);
 				awayTeam.setAtsLosses(awayTeam.getAtsLosses() + 1);
+				//Difference in scores is less than the absolute value of the spread
 			} else if (difference < Math.abs(gameLine.getSpread())) {
 				awayTeam.setAtsWins(awayTeam.getAtsWins() + 1);
 				homeTeam.setAtsLosses(homeTeam.getAtsLosses() + 1);
 			}
+			//Away team is favored
 		} else if (gameLine.getSpread() > 0) {
-
+            //Home team won or away team won but not by enough.
 			if (difference > 0 || Math.abs(difference) < gameLine.getSpread()) {
 				homeTeam.setAtsWins(homeTeam.getAtsWins() + 1);
 				awayTeam.setAtsLosses(awayTeam.getAtsLosses() + 1);
+				//Away team has won and beat the spread.
 			} else if (Math.abs(difference) > gameLine.getSpread()) {
 				homeTeam.setAtsLosses(homeTeam.getAtsLosses() + 1);
 				awayTeam.setAtsWins(awayTeam.getAtsWins() + 1);
